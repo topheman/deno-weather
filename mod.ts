@@ -1,11 +1,8 @@
-import { makeApi } from "./libs/api.ts";
+import { runCli } from "./cli.ts";
 
-async function main() {
-  const api = makeApi();
-  const result = await api();
-  console.log(result);
-}
+// todo export public APIs
 
 if (import.meta.main) {
-  main();
+  // would be better to dynamically import `runCli`, though, it neads a flag 😥
+  runCli(Deno.args);
 }

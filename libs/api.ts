@@ -1,6 +1,6 @@
 import { makeHttpClient, prepareQuery } from "./httpClient.ts";
 
-const DEFAULT_ENDPOINT = "https://wttr.in";
+export const DEFAULT_ENDPOINT = "https://wttr.in";
 
 export const makeApi = (
   {
