@@ -23,7 +23,6 @@ Options:
 
 export async function runCli(denoArgs: string[]) {
   const { _: args, ...options } = parse(denoArgs);
-  console.log(args, options);
 
   if (options.h || options.help) {
     console.log(helpMessage);

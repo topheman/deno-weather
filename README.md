@@ -6,25 +6,23 @@ The goal of this project is to discover deno.
 
 You can launch the cli simply with:
 
-TODO - update with full url
-
 ```sh
-deno run ./mod.ts
+deno run https://raw.githubusercontent.com/topheman/deno-weather/master/mod.ts
 
 # to show help :
-deno run ./mod.ts --help
+deno run https://raw.githubusercontent.com/topheman/deno-weather/master/mod.ts --help
 
 # to specify a loacation :
-deno run ./mod.ts Paris, France
+deno run https://raw.githubusercontent.com/topheman/deno-weather/master/mod.ts Paris, France
 
 # you can specify a language
-deno run ./mod.ts Paris, France --lang fr
+deno run https://raw.githubusercontent.com/topheman/deno-weather/master/mod.ts Paris, France --lang fr
 ```
 
 You can use the api that way:
 
 ```js
-import { makeApi } from './mod.ts'
+import { makeApi } from 'https://raw.githubusercontent.com/topheman/deno-weather/master/mod.ts'
 
 const api = makeApi()
 
@@ -36,3 +34,5 @@ const payload = await api({
 })
 console.log(JSON.stringify(payload, null, "  "));
 ```
+
+TODO : point to a specific tag instead of `master`
