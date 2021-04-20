@@ -14,11 +14,12 @@ export type IQueryFactory = (
   args: PrepareQueryParamsType,
 ) => ({ pathname: string; params: HttpClientParamsType });
 
-export const prepareQuery: IQueryFactory = (args) => {
+export const prepareQuery: IQueryFactory = ({ location, params }) => {
   return {
-    pathname: "/Paris",
+    pathname: `/${location.replaceAll("/", " ")}`,
     params: {
       format: "j1",
+      lang: String(params.lang),
     },
   };
 };
@@ -34,8 +35,8 @@ export const makeHttpClient: IHttpClientFactory = () =>
     class HTTPError extends Error {}
 
     const queryString = new URLSearchParams(params).toString();
-    const url = `${HTTP_ENDPOINT}${pathname}${queryString &&
-      "?" + queryString}`;
+    const url = encodeURI(`${HTTP_ENDPOINT}${pathname}${queryString &&
+      "?" + queryString}`);
 
     const response = await fetch(url);
 
