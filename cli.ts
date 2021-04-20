@@ -1,6 +1,11 @@
 import { parse } from "https://deno.land/std@0.92.0/flags/mod.ts";
 
-import { DEFAULT_ENDPOINT, makeApi } from "./libs/api.ts";
+import { HTTP_ENDPOINT, makeApi } from "./libs/api.ts";
+
+export type CliParamsType = {
+  location: string;
+  params: Record<string, string>;
+};
 
 const allowedFlags = ["lang", "u", "m"];
 
@@ -44,7 +49,7 @@ export async function runCli(denoArgs: string[]) {
     Deno.exit(22);
   }
 
-  const hostAllowed = DEFAULT_ENDPOINT.replace(/^https?\:\/\//, "");
+  const hostAllowed = HTTP_ENDPOINT.replace(/^https?\:\/\//, "");
 
   const permissionAllowNetDescriptor = {
     name: "net",
@@ -61,15 +66,15 @@ export async function runCli(denoArgs: string[]) {
   if (status.state === "denied") {
     console.log(
       `
-This program needs permission to make requests to ${DEFAULT_ENDPOINT}
+This program needs permission to make requests to ${HTTP_ENDPOINT}
 
 Please pass --allow-net=${hostAllowed} flag, or grant the net permission you were asked for.`,
     );
     Deno.exit(1);
   }
 
-  const preparedArgs = {
-    ...options,
+  const preparedArgs: CliParamsType = {
+    params: { ...options },
     location: args.join(" "),
   };
 

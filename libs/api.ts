@@ -1,17 +1,38 @@
+import {
+  IHttpClientFactory,
+  IQueryFactory,
+  PrepareQueryParamsType,
+} from "./httpClient.ts";
 import { makeHttpClient, prepareQuery } from "./httpClient.ts";
+export { HTTP_ENDPOINT } from "./httpClient.ts";
+import { WttrInPayload } from "./types.ts";
 
-export const DEFAULT_ENDPOINT = "https://wttr.in";
+export type IApiFactory = (
+  { httpClientFactory, queryFactory }: {
+    httpClientFactory: IHttpClientFactory;
+    queryFactory: IQueryFactory;
+  },
+) => (
+  args: PrepareQueryParamsType,
+) => Promise<WttrInPayload>;
 
-export const makeApi = (
+const apiFactory: IApiFactory = (
   {
-    endpoint = DEFAULT_ENDPOINT,
-    raw = true, // todo set to false when formatter done
-    httpClientFactory = makeHttpClient,
-    queryFactory = prepareQuery,
-  } = {},
+    httpClientFactory,
+    queryFactory,
+  },
 ) =>
-  (args = {}) => {
-    const httpClient = makeHttpClient({ endpoint });
-    return httpClient(prepareQuery(args));
+  (args) => {
+    const httpClient = httpClientFactory();
+    return httpClient(queryFactory(args));
     // todo manage logic/formatting
   };
+
+export const makeApi = ({
+  httpClientFactory = makeHttpClient,
+  queryFactory = prepareQuery,
+} = {}) =>
+  apiFactory({
+    httpClientFactory,
+    queryFactory,
+  });
