@@ -22,16 +22,16 @@ deno run https://raw.githubusercontent.com/topheman/deno-weather/master/mod.ts P
 You can use the api that way:
 
 ```js
-import { makeApi } from 'https://raw.githubusercontent.com/topheman/deno-weather/master/mod.ts'
+import { makeApi } from "https://raw.githubusercontent.com/topheman/deno-weather/master/mod.ts";
 
-const api = makeApi()
+const api = makeApi();
 
 const payload = await api({
   params: {
-    lang: 'fr'
+    lang: "fr",
   },
-  location: 'Paris, France'
-})
+  location: "Paris, France",
+});
 console.log(JSON.stringify(payload, null, "  "));
 ```
 
